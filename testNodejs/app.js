@@ -5,8 +5,14 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
+// Database
+var mongo = require('mongodb');
+var monk = require('monk');
+var db = monk('localhost:27017/testNodejs');
+
 var routes = require('./routes/index');
 var users = require('./routes/users');
+var testNodejs = require('./routes/testNodejs');
 
 var app = express();
 
@@ -24,6 +30,23 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', routes);
 app.use('/users', users);
+app.use('/testNodejs', testNodejs);
+
+// Make our db accessible to our router
+app.use(function(req,res,next){
+	var err = new Error('Not Found');
+	err.status = 404;
+    req.db = db;
+    next(err);
+});
+
+var router = express.Router();
+router.get('/testNodejs', function(req, res) {
+	res.json({ message: 'hooray! welcome to our api!' });
+});
+
+app.use('/api', router);
+
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -56,5 +79,6 @@ app.use(function(err, req, res, next) {
   });
 });
 
+console.log('Magic happens on port 3000');
 
 module.exports = app;
