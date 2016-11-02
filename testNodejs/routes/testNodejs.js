@@ -27,7 +27,6 @@ var rate = JSON.parse(body).quotes.USDEUR;
 console.log(rate);
         res.send({value: value});
     });
-
 });
 
 router.post ('/', function (req, res, next) {
@@ -45,31 +44,12 @@ router.post ('/', function (req, res, next) {
 
     request(options, function (error, response, body) {
         if (error) throw new Error(error);
-
         console.log(body);
-
         var rate = JSON.parse(body).quotes.USDEUR;
-
-
         var dollars = req.body.dollars;
         var result = dollars * rate;
         res.send({value: result});
-
-
     });
-
-
 });
-
-// var GoogleMapsLoader = require('googlemaps');
-// GoogleMapsLoader.load(function(google) {
-// 	new google.maps.Map(el, options);
-// });
-// 
-// GoogleMapsLoader.KEY = 'AIzaSyCCdegQwzbIxZE2f_vhczvUkM1P1CbQNVE';
-// 
-// GoogleMapsLoader.onLoad(function(google) {
-// 	console.log('I just loaded google maps api');
-// });
 
 module.exports = router;
