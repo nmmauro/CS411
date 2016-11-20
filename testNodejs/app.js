@@ -11,14 +11,17 @@ var monk = require('monk');
 var db = monk('localhost:27017/testNodejs');
 
 var routes = require('./routes/index');
-var users = require('./routes/users');
+var home = require('./routes/home');
 var testNodejs = require('./routes/testNodejs');
+var register = require('./routes/register');
+var login = require('./routes/login');
 
 var app = express();
 
 // view engine setup
+app.engine('html', require('ejs').renderFile);
 app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'jade');
+app.set('view engine', 'html');
 
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
@@ -29,8 +32,10 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', routes);
-app.use('/users', users);
+app.use('/home', home);
 app.use('/testNodejs', testNodejs);
+app.use('/register', register);
+app.use('/login', login);
 
 // Make our db accessible to our router
 app.use(function(req,res,next){
@@ -46,6 +51,10 @@ router.get('/testNodejs', function(req, res) {
 });
 
 app.use('/api', router);
+
+router.get('/register', function(req, res) {
+  res.json({ message: 'okay lets register' });
+});
 
 
 // catch 404 and forward to error handler

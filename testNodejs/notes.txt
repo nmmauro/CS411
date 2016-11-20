@@ -1,0 +1,7 @@
+-- how to communicate between angular and js
+    ajax calls?
+
+-- To Do:
+    change use cases
+    log in and password save
+--

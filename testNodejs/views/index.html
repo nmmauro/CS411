@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <script src='//maps.googleapis.com/maps/api/js?'></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular.min.js"></script>
+  <script src="javascripts/controllers.js"></script>
+  <script async="" defer="" ng-src={{src}}></script>
+  <link href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body ng-app="indexApp" ng-controller="indexController" ng-init="initApp()">
+
+<div class="container">
+  <div class="jumbotron">
+    <h1>Hello!</h1>
+    <p>Welcome to my app, ready to get started?</p>
+    <form>
+      <input ng-model="username" type="text" name="user" placeholder="Username" value="username" class="username">
+      <input ng-model="password" type="password" name="pass" placeholder="Password" value="password" class="password">
+      <!--<script ng-init="getUserCredentials()"></script>-->
+      <a ng-click="createUser()" class="btn btn-primary">Register now</a>
+      <!-- ^^^ href="/login" -->
+    </form>
+    <p><span class="small">Already have an account?</span><span>&nbsp;</span><a ng-click="getUser()" class="btn small">Login now</a></p>
+  </div>
+</div>
+
+
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<h3>Google Maps API
+  <div id="map"></div>
+  <script ng-init="initMap()"></script>
+</h3>
+</body>
+</html>

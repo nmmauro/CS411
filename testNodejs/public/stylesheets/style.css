@@ -11,3 +11,8 @@ h3 {
 padding: 50px;
   font: 14px "Lucida Grande"
 }
+
+#map {
+  height: 400px;
+  width: 100%;
+}
