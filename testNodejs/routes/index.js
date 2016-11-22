@@ -37,8 +37,17 @@ router.get('/', function (req, res, next) {
 
 router.post('/', function (req, res, next) {
     var search = 'trends/place'
-    var params = {id: "2367105"};
+    var params;
+    console.log(req.body.city);
+    if (req.body.city == "Boston") {
+        params = {id: "2367105"};
+    }
+    else {
+        params = {id: "2122541"};
+    }
     twitterClient.get(search, params, function(error, result, response) {
+        console.log("params");
+        console.log(params);
         if (!error) {
             var numberOfTrends = result[0]['trends'].length; //number of trends
             for (var i = 0; i < numberOfTrends; i++) {

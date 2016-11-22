@@ -2,7 +2,7 @@
  * Created by kishanpatel on 11/7/16.
  */
 
-var app = angular.module('indexApp', []).
+angular.module('indexApp', []).
     controller('indexController', function($scope, $http) {
         $scope.result = "hello";
 
@@ -30,7 +30,7 @@ var app = angular.module('indexApp', []).
             var src = "https://maps.googleapis.com/maps/api/js?key="
             var uluru = {lat: 42.350504, lng: -71.105404};
             var map = new google.maps.Map(document.getElementById('map'), {
-                zoom: 15,
+                zoom: 5,
                 center: uluru
             });
             var marker = new google.maps.Marker({
@@ -51,16 +51,16 @@ var app = angular.module('indexApp', []).
             console.log($scope.src);
         }
 
-        $scope.createUser = function() {
-            var username = "";
-            var password = "";
-            username = $scope.username;
-            password = $scope.password;
-            console.log(username);
-            console.log(password);
-            //send username and password to index.js
-
-        }
+        // $scope.createUser = function() {
+        //     var username = "";
+        //     var password = "";
+        //     username = $scope.username;
+        //     password = $scope.password;
+        //     console.log(username);
+        //     console.log(password);
+        //     //send username and password to index.js
+        //
+        // }
 
         // $scope.getUser = function() {
         //     var users;
@@ -74,13 +74,47 @@ var app = angular.module('indexApp', []).
         //     console.log(users); //does not receive users
         // }
 
-        $http.post('http://localhost:3000/')
-            .then(function(response) {
-                var trends = response.data;
-                console.log("hey");
-                console.log(response.data[0]);
-            })
+        // $http.post('http://localhost:3000/')
+        //     .then(function(response) {
+        //         var trends = response.data;
+        //         console.log("hey");
+        //         console.log(response.data[0]);
+        //     })
 
+
+    })
+    //controller for navigation Bar
+    .controller('navBarController', function($scope, $http) {
+        $scope.trending = function(city) {
+            console.log(city);
+            //top trending topics for Boston will display on home page
+            $http.post('http://localhost:3000/', {city: city})
+                .then(function(response) {
+                    console.log(response.data);
+                    var trends = response.data;
+                    trends = response.data;
+                    console.log(trends);
+                    for (var i = 0; i < 50; i++) {
+                        $scope.trends = [
+                            {trend: trends[0]},
+                            {trend: trends[1]},
+                            {trend: trends[2]},
+                            {trend: trends[3]},
+                            {trend: trends[4]},
+                            {trend: trends[5]},
+                            {trend: trends[6]},
+                            {trend: trends[7]},
+                            {trend: trends[8]},
+                            {trend: trends[9]}
+                        ];
+                    }
+                });
+
+            //on Boston, NY, etc. button click
+            $scope.trending = function() {
+            }
+        }
 
     });
+
 
