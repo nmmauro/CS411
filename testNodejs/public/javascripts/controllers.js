@@ -6,6 +6,20 @@ var app = angular.module('indexApp', []).
     controller('indexController', function($scope, $http) {
         $scope.result = "hello";
 
+    // var request = {
+    //     method: 'post',
+    //     url: 'http://localhost:3000/',
+    //     data: {
+    //         city: "Boston"
+    //     }
+    // };
+    // $http(request)
+    //     .then(function(response) {
+    //         var trends = response.trends;
+    //         console.log("hey");
+    //         console.log(trends);
+    //     })
+
         //this function IS being called
         $scope.initMap = function() {
             console.log("this function is being called")
@@ -48,17 +62,25 @@ var app = angular.module('indexApp', []).
 
         }
 
-        $scope.getUser = function() {
-            var users;
-            var usernames;
-            var passwords;
+        // $scope.getUser = function() {
+        //     var users;
+        //     var usernames;
+        //     var passwords;
+        //
+        //     $http.get('http://localhost:3000/')
+        //         .then(function(response) {
+        //             users = response.users;
+        //         });
+        //     console.log(users); //does not receive users
+        // }
 
-            $http.get('http://localhost:3000/index')
-                .then(function(response) {
-                    users = response.users;
-                })
-            console.log(users); //does not receive users
-        }
+        $http.post('http://localhost:3000/')
+            .then(function(response) {
+                var trends = response.data;
+                console.log("hey");
+                console.log(response.data[0]);
+            })
+
 
     });
 

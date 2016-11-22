@@ -11,7 +11,6 @@ var monk = require('monk');
 var db = monk('localhost:27017/testNodejs');
 
 var routes = require('./routes/index');
-var home = require('./routes/home');
 var testNodejs = require('./routes/testNodejs');
 var register = require('./routes/register');
 var login = require('./routes/login');
@@ -32,7 +31,6 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', routes);
-app.use('/home', home);
 app.use('/testNodejs', testNodejs);
 app.use('/register', register);
 app.use('/login', login);

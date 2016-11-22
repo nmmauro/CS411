@@ -1,7 +1,8 @@
--- how to communicate between angular and js
-    ajax calls?
-
 -- To Do:
     change use cases
-    log in and password save
---
+    log in: verify username and password
+    register: add username and password if it doesn't already exist
+
+    Map: put a pin on a location given coordinate values
+    Twitter: parse data based on search with geotag not null, get geotag from data, get coordinates from geotag, post on map
+

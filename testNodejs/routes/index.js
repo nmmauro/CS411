@@ -6,20 +6,22 @@ var request = require("request");
 var users = '[{"username":"kishan", "password":"patel"},{"username":"a", "password":"b"}]';
 var arr = JSON.parse(users);
 
+var trends = [];
+
 // GET index page.
-router.get('/', function(req, res, next) {
-    res.render('index', { title: 'whatup' });
-});
+// router.get('/', function(req, res, next) {
+//     res.render('index', { title: 'whatup' });
+// });
 
 // POST send Google Maps API Key
-router.post('/index', function(req, res, next) {
-    var key = "AIzaSyCM63S2j8da77lKI4FhcD7aJIPl6lA_nb0";
-    res.send({key: key}, {users: users});
-})
+// router.post('/index', function(req, res, next) {
+//     var key = "AIzaSyCM63S2j8da77lKI4FhcD7aJIPl6lA_nb0";
+//     res.send({key: key}, {users: users});
+// })
 
-router.get('/index', function (req, res, next) {
-
-});
+// router.get('/index', function (req, res, next) {
+//
+// });
 
 var twitterClient = new Twitter({
     consumer_key: 's0V6XvYaqFG0CbYaRNmManavg',
@@ -28,12 +30,41 @@ var twitterClient = new Twitter({
     access_token_secret: 'M6HrTMcRdGSJUyN3tdXXKp9UPilE3XSIbyIQVdKlGhgxW'
 });
 
-var params = {query: 'boston'};
-// twitterClient.get('geo/search', params, function(error, tweets, response) {
-//     if (!error) {
-//         console.log(tweets);
-//     }
-// });
+//boston trends
+router.get('/', function (req, res, next) {
+    res.render('index');
+});
+
+router.post('/', function (req, res, next) {
+    var search = 'trends/place'
+    var params = {id: "2367105"};
+    twitterClient.get(search, params, function(error, result, response) {
+        if (!error) {
+            var numberOfTrends = result[0]['trends'].length; //number of trends
+            for (var i = 0; i < numberOfTrends; i++) {
+                trends[i] = ((result[0]['trends'][i]['name']));
+            }
+        }
+    });
+    console.log(trends);
+    res.send(trends);
+})
+
+
+
+
+
+
+module.exports = router;
+
+
+
+
+
+
+
+
+
 
 // twitterClient.get('statuses/user_timeline', {user_id: 'kishan8910'}, function(error, tweets, response) {
 //     console.log(tweets);
@@ -43,8 +74,3 @@ var params = {query: 'boston'};
 // stream.on('data', function(event) {
 //     console.log(event && event.text);
 // });
-
-
-
-module.exports = router;
-
