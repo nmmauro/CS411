@@ -38,13 +38,9 @@ router.get('/', function (req, res, next) {
 router.post('/', function (req, res, next) {
     var search = 'trends/place'
     var params;
-    console.log(req.body.city);
-    if (req.body.city == "Boston") {
-        params = {id: "2367105"};
-    }
-    else {
-        params = {id: "2122541"};
-    }
+    console.log(req.body.woeid);
+    params = {id: req.body.woeid};
+
     twitterClient.get(search, params, function(error, result, response) {
         console.log("params");
         console.log(params);
@@ -53,10 +49,11 @@ router.post('/', function (req, res, next) {
             for (var i = 0; i < numberOfTrends; i++) {
                 trends[i] = ((result[0]['trends'][i]['name']));
             }
+            console.log(trends);
+            res.send(trends);
+
         }
     });
-    console.log(trends);
-    res.send(trends);
 })
 
 
