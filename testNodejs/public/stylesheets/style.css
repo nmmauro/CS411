@@ -1,5 +1,5 @@
 body {
-  padding: 50px;
+  /*padding: 50px;*/
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
 }
 
@@ -8,20 +8,64 @@ a {
 }
 
 h3 {  
-padding: 50px;
+/*padding: 50px;*/
   font: 14px "Lucida Grande"
 }
 
 #map {
-  height: 400px;
-  width: 100%;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 30%;
+  left: 0;
+}
+
+.nav-bar {
+  position: absolute;
+  top: 0;
+  bottom: 85%;
+  right: 0;
+  left: 71%;
+  z-index: 10;
+  align: right;
+  float: right;
+}
+
+.trends-list {
+  position: absolute;
+  top:15%;
+  z-index: 10;
+  left: 73%;
+  align: left;
+  float: left;
 }
 
 .sidebar {
   position: fixed;
   height: 600px;
-  right: 50px;
+  right: 0px;
   top: 185px;
-  width: 50px;
+  width: 100px;
   overflow-y: scroll;
+  float: right;
+}
+
+.overlay {
+  height: 100%;
+  width: 70%;
+  z-index: -5;
+}
+
+.text-items {
+
+  z-index: 5;
+  top: 50px;
+  align: right;
+  float: right;
+}
+
+.whats-trending {
+  font-size: 25px;
+  color: #d9d9d9;
+  text-shadow: rgba(255,255,255,.1) -1px -1px 1px,rgba(0,0,0,.5) 1px 1px 1px;
 }

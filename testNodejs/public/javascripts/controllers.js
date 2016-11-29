@@ -101,6 +101,16 @@ angular.module('indexApp', []).
             var singaporeMarker = addMarker(1.352083, 103.819836, map, "ATL", 23424948);
             var athensMarker = addMarker(33.951935, -83.357567, map, "ATL", 946738);
 
+            var req = new XMLHttpRequest();
+            req.open('GET', 'http://where.yahooapis.com/v1.q(Boston)', false);
+            req.send(null);
+            if (req.status == 200) {
+                dump(req.responseText);
+            }
+            else {
+                console.log(req.responseText);
+            }
+
             var image = '/images/pin.png'
             console.log(image)
 
@@ -115,7 +125,9 @@ angular.module('indexApp', []).
                     $http.post('http://localhost:3000/', {woeid: woeid})
                         .then(function(response) {
                             var trends = response.data;
+                            var city = label;
                             console.log(trends);
+                                $scope.city = "Trending in " + city;
                                 $scope.trends = [
                                     {trend: trends[0]},
                                     {trend: trends[1]},

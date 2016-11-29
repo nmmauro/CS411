@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns="http://www.w3.org/1999/html">
 <head>
   <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular.min.js"></script>
   <script src='//maps.googleapis.com/maps/api/js?'></script>
@@ -9,11 +9,11 @@
 </head>
 
 <body ng-app="indexApp" ng-controller="indexController" ng-init="initApp()">
-<div ng-controller="navBarController" ng-init="">
-<nav class="navbar navbar-inverse navbar-fixed-top">
+<div class="text-items">
+<nav class="nav-bar navbar navbar-inverse navbar-fixed-top">
   <div class="container-fluid">
     <div class="navbar-header">
-      <a class="navbar-brand" href="">tweetMap</a>
+      <a class="navbar-brand tweetmap" href="">tweetmap</a>
     </div>
       <!--<button ng-click="trending('Boston')" class="btn btn-default">Boston</button>-->
       <!--<button ng-click="trending('Novosibirsk')" class="btn btn-default">Novosibirsk</button>-->
@@ -32,19 +32,27 @@
       </div>
   </ul>
   </div>
+  </nav>
+<div class="trends-list">
+  <p class="whats-trending"> {{city}} </p>
   <p ng-repeat="trend in trends">{{$index + 1}}. {{trend.trend}}</p>
-</nav>
 </div>
 
-<div>
+  </div>
+
+</div>
+
+<div class="overlay">
 <head>
   <meta charset="UTF-8">
   <title>Title</title>
 </head>
 <h3>Google Maps API
-  <div id="map"></div>
+  <div id="map">
   <script ng-init="initMap()"></script>
+  </div>
 </h3>
-</body>
 </div>
+</body>
+
 </html>
