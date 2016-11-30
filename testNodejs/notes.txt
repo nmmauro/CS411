@@ -6,3 +6,13 @@
     Map: put a pin on a location given coordinate values
     Twitter: parse data based on search with geotag not null, get geotag from data, get coordinates from geotag, post on map
 
+
+- Add hyperlinks for each trend
+- search bar: inspect woeid website to get woeid
+    addMarker() for this place
+
+-- empty map by removing all markers
+    insert default: boston
+    every marker you search for you can save {yes/no}
+    make account to save markers
+

@@ -9,6 +9,12 @@
 </head>
 
 <body ng-app="indexApp" ng-controller="indexController" ng-init="initApp()">
+
+<div class="search">
+  <input class="searchbar" ng-model="location_searched" type="text" placeholder="Type in a location...">
+  <button ng-click="getCoordinates()" class="searchbutton"> Search </button>
+  </div>
+
 <div class="text-items">
   <img class="logo" src="https://upload.wikimedia.org/wikipedia/commons/5/52/Trendmap_logo.png">
 
@@ -27,7 +33,7 @@
           <input ng-model="username" type="text" name="user" placeholder="Username" value="username" class="username">
           <input ng-model="password" type="password" name="pass" placeholder="Password" value="password" class="password">
           <!--<script ng-init="getUserCredentials()"></script>-->
-          <a ng-click="getUser()" class="btn btn-primary">Login</a>
+          <button ng-click="getUser()">Login</button>
           <!-- ^^^ href="/login" -->
       </form>
       </div>

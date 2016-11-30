@@ -14,6 +14,7 @@ var routes = require('./routes/index');
 var testNodejs = require('./routes/testNodejs');
 var register = require('./routes/register');
 var login = require('./routes/login');
+var woeid = require('./routes/woeid');
 
 var app = express();
 
@@ -34,6 +35,7 @@ app.use('/', routes);
 app.use('/testNodejs', testNodejs);
 app.use('/register', register);
 app.use('/login', login);
+app.use('/woeid', woeid);
 
 // Make our db accessible to our router
 app.use(function(req,res,next){

@@ -24,6 +24,29 @@ angular.module('indexApp', []).
     //         console.log(trends);
     //     })
 
+    var lookupLocation;
+    //based on what you search for, this function will return its lat/long values
+    $scope.getCoordinates = function() {
+        var geocoder = new google.maps.Geocoder();
+        var location = $scope.location_searched;
+        lookupLocation = $scope.location_searched;
+        geocoder.geocode( { 'address': location}, function(results, status) {
+            if (status == google.maps.GeocoderStatus.OK)
+            {
+                //var text = $scope.location_searched;
+                var lat = results[0].geometry.location.lat();
+                var long = results[0].geometry.location.lng();
+                console.log(location, lat, long);
+            }
+        });
+
+        $http.post('http://localhost:3000/woeid', {lookupLocation: lookupLocation})
+            .then(function(response) {
+                var data = response.data;
+                console.log(data);
+            })
+    };
+
         //this function IS being called
         $scope.initMap = function() {
             console.log("this function is being called")
@@ -364,16 +387,6 @@ angular.module('indexApp', []).
             var singaporeMarker = addMarker(1.352083, 103.819836, map, "Singapore", 23424948);
             //var athensMarker = addMarker(33.951935, -83.357567, map, "Athens", 946738);
 
-            var req = new XMLHttpRequest();
-            req.open('GET', 'http://where.yahooapis.com/v1.q(Boston)', false);
-            req.send(null);
-            if (req.status == 200) {
-                dump(req.responseText);
-            }
-            else {
-                console.log(req.responseText);
-            }
-
             var image = 'https://upload.wikimedia.org/wikipedia/commons/8/8f/Marker.png'
             console.log(image)
 
@@ -413,6 +426,8 @@ angular.module('indexApp', []).
 
                 return marker;
             }
+
+
 
             // google.maps.event.addListener(marker, 'click', function() {
             //     console.log(this.label);
@@ -492,17 +507,20 @@ angular.module('indexApp', []).
         //
         // }
 
-        // $scope.getUser = function() {
-        //     var users;
-        //     var usernames;
-        //     var passwords;
-        //
-        //     $http.get('http://localhost:3000/')
-        //         .then(function(response) {
-        //             users = response.users;
-        //         });
-        //     console.log(users); //does not receive users
-        // }
+        $scope.getUser = function() {
+            var username = $scope.username;
+
+
+            var users;
+            var usernames;
+            var passwords;
+
+            $http.get('http://localhost:3000/')
+                .then(function(response) {
+                    users = response.users;
+                });
+            console.log(users); //does not receive users
+        }
 
         // $http.post('http://localhost:3000/')
         //     .then(function(response) {
@@ -512,38 +530,7 @@ angular.module('indexApp', []).
         //     })
 
 
-    })
-    //controller for navigation Bar
-    .controller('navBarController', function($scope, $http) {
-        $scope.trending = function(woeid) {
-            console.log(city);
-            //top trending topics for Boston will display on home page
-            $http.post('http://localhost:3000/', {woeid: woeid})
-                .then(function(response) {
-                    console.log(response.data);
-                    var trends = response.data;
-                    trends = response.data;
-                    console.log(trends);
-                    for (var i = 0; i < 50; i++) {
-                        $scope.trends = [
-                            {trend: trends[0]},
-                            {trend: trends[1]},
-                            {trend: trends[2]},
-                            {trend: trends[3]},
-                            {trend: trends[4]},
-                            {trend: trends[5]},
-                            {trend: trends[6]},
-                            {trend: trends[7]},
-                            {trend: trends[8]},
-                            {trend: trends[9]}
-                        ];
-                    }
-                });
 
-            //on Boston, NY, etc. button click
-            $scope.trending = function() {
-            }
-        }
 
     });
 

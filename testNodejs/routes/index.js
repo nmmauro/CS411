@@ -2,16 +2,14 @@ var express = require('express');
 var router = express.Router();
 var Twitter = require('twitter');
 var request = require("request");
+var XMLHttpRequest = require('XMLHttpRequest');
 
 var users = '[{"username":"kishan", "password":"patel"},{"username":"a", "password":"b"}]';
 var arr = JSON.parse(users);
 
 var trends = [];
 
-// GET index page.
-// router.get('/', function(req, res, next) {
-//     res.render('index', { title: 'whatup' });
-// });
+
 
 // POST send Google Maps API Key
 // router.post('/index', function(req, res, next) {
@@ -30,32 +28,49 @@ var twitterClient = new Twitter({
     access_token_secret: 'M6HrTMcRdGSJUyN3tdXXKp9UPilE3XSIbyIQVdKlGhgxW'
 });
 
-//boston trends
-router.get('/', function (req, res, next) {
-    res.render('index');
+// GET index page.
+router.get('/', function(req, res, next) {
+    res.render('index', { title: 'trendmap' });
 });
 
 router.post('/', function (req, res, next) {
-    var search = 'trends/place'
+    var search = 'trends/place';
     var params;
-    console.log(req.body.woeid);
+    //console.log(req.body.woeid);
     params = {id: req.body.woeid};
 
     twitterClient.get(search, params, function(error, result, response) {
-        console.log("params");
-        console.log(params);
+        //console.log("params");
+        //console.log(params);
         if (!error) {
             var numberOfTrends = result[0]['trends'].length; //number of trends
             for (var i = 0; i < numberOfTrends; i++) {
                 trends[i] = ((result[0]['trends'][i]['name']));
             }
-            console.log(trends);
+            //console.log(trends);
             res.send(trends);
 
         }
     });
-})
+});
 
+
+
+
+
+
+
+
+// var my = new XMLHttpRequest();
+// my.open('GET', 'http://woeid.rosselliot.co.nz/lookup/Boston', false);
+// console.log("suppp");
+// my.send(null);
+// if (my.status == 200) {
+//     dump(my.responseText);
+// }
+// else {
+//     console.log(my.responseText);
+// }
 
 
 
