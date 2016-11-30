@@ -8,44 +8,10 @@ angular.module('indexApp', []).
     $scope.city = "What's Trending?"
     $scope.help = "Click on a pin to see what's trending at that location."
 
-        var markers = [];
-
-    // var request = {
-    //     method: 'post',
-    //     url: 'http://localhost:3000/',
-    //     data: {
-    //         city: "Boston"
-    //     }
-    // };
-    // $http(request)
-    //     .then(function(response) {
-    //         var trends = response.trends;
-    //         console.log("hey");
-    //         console.log(trends);
-    //     })
-
     var lookupLocation;
+    var map;
     //based on what you search for, this function will return its lat/long values
-    $scope.getCoordinates = function() {
-        var geocoder = new google.maps.Geocoder();
-        var location = $scope.location_searched;
-        lookupLocation = $scope.location_searched;
-        geocoder.geocode( { 'address': location}, function(results, status) {
-            if (status == google.maps.GeocoderStatus.OK)
-            {
-                //var text = $scope.location_searched;
-                var lat = results[0].geometry.location.lat();
-                var long = results[0].geometry.location.lng();
-                console.log(location, lat, long);
-            }
-        });
 
-        $http.post('http://localhost:3000/woeid', {lookupLocation: lookupLocation})
-            .then(function(response) {
-                var data = response.data;
-                console.log(data);
-            })
-    };
 
         //this function IS being called
         $scope.initMap = function() {
@@ -56,7 +22,7 @@ angular.module('indexApp', []).
             var defer = "";
             var src = "https://maps.googleapis.com/maps/api/js?key="
             var center = {lat: 40.7128, lng: -74.0059};
-            var map = new google.maps.Map(document.getElementById('map'), {
+            map = new google.maps.Map(document.getElementById('map'), {
                 zoom: 6,
                 center: center,
                 styles: [
@@ -325,74 +291,15 @@ angular.module('indexApp', []).
 
             //USA Markers
             var bostonMarker = addMarker(42.3601, -71.0589, map, "Boston", 2367105); //marker for Boston
-            var newYorkMarker = addMarker(40.7128, -74.0059, map, "New York", 2459115);
-            var losAngelesMarker = addMarker(34.052234, -118.243685, map, "Los Angeles", 2442047);
-            var miamiMarker = addMarker(25.761680, -80.191790, map, "Miami", 2450022);
-            var newOrleansMarker = addMarker(29.951066, -90.071532, map, "New Orleans", 2458833);
-            var providenceMarker = addMarker(41.823989, -71.412834, map, "Providence", 2477058);
-            var chicagoMarker = addMarker(41.878114, -87.629798, map, "Chicago", 2379574);
-            var houstonMarker = addMarker(29.760427, -95.369803, map, "Houston", 2424766);
-            var portlandMarker = addMarker(45.523062, -122.676482, map, "Portland", 2475687);
-            var sacramentoMarker = addMarker(38.581572, -121.494400, map, "Sacramento", 2486340);
-            var stLouisMarker = addMarker(38.610302, -90.412518, map, "St Louis", 2486982);
-            var sanFranciscoMarker = addMarker(37.774929, -122.419416, map, "San Francisco", 2487956);
-            var minneapolisMarker = addMarker(44.977753, -93.265011, map, "Minneapolis", 2452078);
-            var nashvilleMarker = addMarker(36.162664, -86.781602, map, "Nashville", 2457170);
-            var lasVegasMarker = addMarker(36.114707, -115.172850, map, "Las Vegas", 2436704);
-            var denverMarker = addMarker(39.739236, -104.990251, map, "Denver", 2391279);
-            var cincinnatiMarker = addMarker(39.103118, -84.512020, map, "Cincinnati", 2380358);
-            var baltimoreMarker = addMarker(39.290385, -76.612189, map, "Baltimore", 2358820);
-            var richmondMarker = addMarker(37.540725, -77.436048, map, "Richmond", 2480894);
-            var sanAntonioMarker = addMarker(29.424122, -98.493628, map, "San Antonio", 2487796);
-            var pittsburghMarker = addMarker(40.440625, -79.995886, map, "Pittsburgh", 2473224);
-            var orlandoMarker = addMarker(28.538335, -81.379236, map, "Orlando", 2466256);
-            var detroitMarker = addMarker(42.331427, -83.045754, map, "Detroit", 2391585);
-            var indianapolisMarker = addMarker(39.768403, -86.158068, map, "Indianapolis", 2427032);
-            var milwaukeeMarker = addMarker(43.038902, -87.906474, map, "Milwaukee", 2451822);
-            var charlotteMarker = addMarker(35.227087, -80.843127, map, "Charlotte", 2378426);
-            var birminghamMarker = addMarker(33.520661, -86.802490, map, "Birmingham", 2364559);
-            var seattleMarker = addMarker(47.606209, -122.332071, map, "Seattle", 2490383);
-            var clevelandMarker = addMarker(41.499320, -81.694361, map, "Cleveland", 2381475);
-            var phoenixMarker = addMarker(33.448377, -112.074037, map, "Phoenix", 2471390);
-            var atlantaMarker = addMarker(33.748995, -84.387982, map, "Atlanta", 2357024);
+            //var newYorkMarker = addMarker(40.7128, -74.0059, map, "New York", 2459115);
 
-            //Global Markers
-            var tokyoMarker = addMarker(35.689487, 139.691706, map, "Tokyo", 1118370);
-            //var saoPauloMarker = addMarker(-23.550520, -46.633309, map, "Sao Paulo", 455827);
-            var seoulMarker = addMarker(37.566535, 126.977969, map, "Seoul", 1132599);
-            var mexicoCityMarker = addMarker(19.432608, -99.133208, map, "Mexico City", 116545);
-            var manilaMarker = addMarker(14.599512, 120.984219, map, "Manila", 1199477);
-            var mumbaiMarker = addMarker(19.075984, 72.877656, map, "Mumbai", 2295411);
-            var delhiMarker = addMarker(28.704059, 77.102490, map, "Delhi", 2295019);
-            var lagosMarker = addMarker(6.524379, 3.379206, map, "Lagos", 1398823);
-            var kolkataMarker = addMarker(22.572646, 88.363895, map, "Kolkata", 2295386);
-            var cairoMarker = addMarker(30.044420, 31.235712, map, "Cairo", 1521894);
-            var buenosAiresMarker = addMarker(-34.603684, -58.381559, map, "Buenos Aires", 468739);
-            var rioDeJaneiroMarker = addMarker(-22.906847, -43.172896, map, "Rio De Janeiro", 455825);
-            var moscowMarker = addMarker(55.755826, 37.617300, map, "Moscow", 2122265);
-            var shanghaiMarker = addMarker(31.230416, 121.473701, map, "Shanghai", 2151849);
-            var karachiMarker = addMarker(24.861462, 67.009939, map, "Karachi", 2211096);
-            var parisMarker = addMarker(48.856614, 2.352222, map, "Paris", 615702);
-            var istanbulMarker = addMarker(41.008238, 28.978359, map, "Istanbul", 2344116);
-            var beijingMarker = addMarker(39.904211, 116.407395, map, "Beijing", 2151330);
-            var londonMarker = addMarker(51.507351, -0.127758, map, "London", 44418);
-            var bangkokMarker = addMarker(13.756331, 100.501765, map, "Bangkok", 1225448);
-            var berlinMarker = addMarker(52.520007, 13.404954, map, "Berlin", 638242);
-            var barcelonaMarker = addMarker(41.385064, 2.173403, map, "Barcelona", 753692);
-            var madridMarker = addMarker(40.416775, -3.703790, map, "Madrid", 766273);
-            var bogotaMarker = addMarker(4.710989, -74.072092, map, "Bogota", 368148);
-            //var stPetersburgMarker = addMarker(27.751828, -82.626734, map, "St Petersburg", 2123260);
-            var torontoMarker = addMarker(43.653226, -79.383184, map, "Toronto", 4118);
-            var milanMarker = addMarker(-79.383184, 9.185924, map, "Milan", 718345);
-            var singaporeMarker = addMarker(1.352083, 103.819836, map, "Singapore", 23424948);
-            //var athensMarker = addMarker(33.951935, -83.357567, map, "Athens", 946738);
 
             var image = 'https://upload.wikimedia.org/wikipedia/commons/8/8f/Marker.png'
             console.log(image)
 
             function addMarker(lat, long, map, label, woeid) {
                 var marker = new google.maps.Marker({
-                    position: {lat: lat, lng: long},
+                    position: {lat: parseFloat(lat), lng: parseFloat(long)},
                     map: map,
                     label: label,
                     icon: 'https://upload.wikimedia.org/wikipedia/commons/8/8f/Marker.png',
@@ -427,71 +334,34 @@ angular.module('indexApp', []).
                 return marker;
             }
 
+            $scope.getCoordinates = function() {
+                console.log("gtting coordinates");
+                var latval;
+                var longval;
+                var geocoder = new google.maps.Geocoder();
+                var locationval = $scope.location_searched;
+                var woeidval;
+                lookupLocation = $scope.location_searched;
+                geocoder.geocode( { 'address': locationval}, function(results, status) {
+                    if (status == google.maps.GeocoderStatus.OK)
+                    {
+                        //var text = $scope.location_searched;
+                        latval = results[0].geometry.location.lat();
+                        longval = results[0].geometry.location.lng();
+                        console.log(locationval, latval, longval);
+                        $http.post('http://localhost:3000/woeid', {lookupLocation: lookupLocation})
+                            .then(function(response) {
+                                woeidval = response.data;
+                                console.log(woeidval);
+                                var marker = addMarker(latval, longval, map, locationval, woeidval);
+                                google.maps.event.trigger(marker, 'click');
+                            })
+                    }
+                })
 
 
-            // google.maps.event.addListener(marker, 'click', function() {
-            //     console.log(this.label);
-            // });
+            };
 
-            // bostonMarker.addListener('click', function() {
-            //     var city = "Boston";
-            //     $http.post('http://localhost:3000/', {city: city})
-            //         .then(function(response) {
-            //             console.log(response.data);
-            //             var trends = response.data;
-            //             trends = response.data;
-            //             console.log(trends);
-            //             for (var i = 0; i < 50; i++) {
-            //                 $scope.trends = [
-            //                     {trend: trends[0]},
-            //                     {trend: trends[1]},
-            //                     {trend: trends[2]},
-            //                     {trend: trends[3]},
-            //                     {trend: trends[4]},
-            //                     {trend: trends[5]},
-            //                     {trend: trends[6]},
-            //                     {trend: trends[7]},
-            //                     {trend: trends[8]},
-            //                     {trend: trends[9]}
-            //                 ];
-            //             }
-            //         });
-            // });
-            //
-            // newYorkMarker.addListener('click', function() {
-            //     var city = "notboston...";
-            //     $http.post('http://localhost:3000/', {city: city})
-            //         .then(function(response) {
-            //             console.log(response.data);
-            //             var trends = response.data;
-            //             trends = response.data;
-            //             console.log(trends);
-            //             for (var i = 0; i < 50; i++) {
-            //                 $scope.trends = [
-            //                     {trend: trends[0]},
-            //                     {trend: trends[1]},
-            //                     {trend: trends[2]},
-            //                     {trend: trends[3]},
-            //                     {trend: trends[4]},
-            //                     {trend: trends[5]},
-            //                     {trend: trends[6]},
-            //                     {trend: trends[7]},
-            //                     {trend: trends[8]},
-            //                     {trend: trends[9]}
-            //                 ];
-            //             }
-            //         });
-            // });
-
-            // $http.get('http://localhost:3000/index')
-            //     .then(function(response) {
-            //         key = response.data;
-            //         src += key;
-            //     })
-
-            //$scope.src = src;
-            //console.log(key);
-            //console.log("");
             $scope.src = "https://maps.googleapis.com/maps/api/js?key=AIzaSyDjj7_B6dfemXryFJbD_u7kA9HfvtEUWcI"
             console.log($scope.src);
         }
@@ -521,17 +391,68 @@ angular.module('indexApp', []).
                 });
             console.log(users); //does not receive users
         }
-
-        // $http.post('http://localhost:3000/')
-        //     .then(function(response) {
-        //         var trends = response.data;
-        //         console.log("hey");
-        //         console.log(response.data[0]);
-        //     })
-
-
-
-
     });
 
+
+
+// var losAngelesMarker = addMarker(34.052234, -118.243685, map, "Los Angeles", 2442047);
+// var miamiMarker = addMarker(25.761680, -80.191790, map, "Miami", 2450022);
+// var newOrleansMarker = addMarker(29.951066, -90.071532, map, "New Orleans", 2458833);
+// var providenceMarker = addMarker(41.823989, -71.412834, map, "Providence", 2477058);
+// var chicagoMarker = addMarker(41.878114, -87.629798, map, "Chicago", 2379574);
+// var houstonMarker = addMarker(29.760427, -95.369803, map, "Houston", 2424766);
+// var portlandMarker = addMarker(45.523062, -122.676482, map, "Portland", 2475687);
+// var sacramentoMarker = addMarker(38.581572, -121.494400, map, "Sacramento", 2486340);
+// var stLouisMarker = addMarker(38.610302, -90.412518, map, "St Louis", 2486982);
+// var sanFranciscoMarker = addMarker(37.774929, -122.419416, map, "San Francisco", 2487956);
+// var minneapolisMarker = addMarker(44.977753, -93.265011, map, "Minneapolis", 2452078);
+// var nashvilleMarker = addMarker(36.162664, -86.781602, map, "Nashville", 2457170);
+// var lasVegasMarker = addMarker(36.114707, -115.172850, map, "Las Vegas", 2436704);
+// var denverMarker = addMarker(39.739236, -104.990251, map, "Denver", 2391279);
+// var cincinnatiMarker = addMarker(39.103118, -84.512020, map, "Cincinnati", 2380358);
+// var baltimoreMarker = addMarker(39.290385, -76.612189, map, "Baltimore", 2358820);
+// var richmondMarker = addMarker(37.540725, -77.436048, map, "Richmond", 2480894);
+// var sanAntonioMarker = addMarker(29.424122, -98.493628, map, "San Antonio", 2487796);
+// var pittsburghMarker = addMarker(40.440625, -79.995886, map, "Pittsburgh", 2473224);
+// var orlandoMarker = addMarker(28.538335, -81.379236, map, "Orlando", 2466256);
+// var detroitMarker = addMarker(42.331427, -83.045754, map, "Detroit", 2391585);
+// var indianapolisMarker = addMarker(39.768403, -86.158068, map, "Indianapolis", 2427032);
+// var milwaukeeMarker = addMarker(43.038902, -87.906474, map, "Milwaukee", 2451822);
+// var charlotteMarker = addMarker(35.227087, -80.843127, map, "Charlotte", 2378426);
+// var birminghamMarker = addMarker(33.520661, -86.802490, map, "Birmingham", 2364559);
+// var seattleMarker = addMarker(47.606209, -122.332071, map, "Seattle", 2490383);
+// var clevelandMarker = addMarker(41.499320, -81.694361, map, "Cleveland", 2381475);
+// var phoenixMarker = addMarker(33.448377, -112.074037, map, "Phoenix", 2471390);
+// var atlantaMarker = addMarker(33.748995, -84.387982, map, "Atlanta", 2357024);
+//
+// //Global Markers
+// var tokyoMarker = addMarker(35.689487, 139.691706, map, "Tokyo", 1118370);
+// //var saoPauloMarker = addMarker(-23.550520, -46.633309, map, "Sao Paulo", 455827);
+// var seoulMarker = addMarker(37.566535, 126.977969, map, "Seoul", 1132599);
+// var mexicoCityMarker = addMarker(19.432608, -99.133208, map, "Mexico City", 116545);
+// var manilaMarker = addMarker(14.599512, 120.984219, map, "Manila", 1199477);
+// var mumbaiMarker = addMarker(19.075984, 72.877656, map, "Mumbai", 2295411);
+// var delhiMarker = addMarker(28.704059, 77.102490, map, "Delhi", 2295019);
+// var lagosMarker = addMarker(6.524379, 3.379206, map, "Lagos", 1398823);
+// var kolkataMarker = addMarker(22.572646, 88.363895, map, "Kolkata", 2295386);
+// var cairoMarker = addMarker(30.044420, 31.235712, map, "Cairo", 1521894);
+// var buenosAiresMarker = addMarker(-34.603684, -58.381559, map, "Buenos Aires", 468739);
+// var rioDeJaneiroMarker = addMarker(-22.906847, -43.172896, map, "Rio De Janeiro", 455825);
+// var moscowMarker = addMarker(55.755826, 37.617300, map, "Moscow", 2122265);
+// var shanghaiMarker = addMarker(31.230416, 121.473701, map, "Shanghai", 2151849);
+// var karachiMarker = addMarker(24.861462, 67.009939, map, "Karachi", 2211096);
+// var parisMarker = addMarker(48.856614, 2.352222, map, "Paris", 615702);
+// var istanbulMarker = addMarker(41.008238, 28.978359, map, "Istanbul", 2344116);
+// var beijingMarker = addMarker(39.904211, 116.407395, map, "Beijing", 2151330);
+// var londonMarker = addMarker(51.507351, -0.127758, map, "London", 44418);
+// var bangkokMarker = addMarker(13.756331, 100.501765, map, "Bangkok", 1225448);
+// var berlinMarker = addMarker(52.520007, 13.404954, map, "Berlin", 638242);
+// var barcelonaMarker = addMarker(41.385064, 2.173403, map, "Barcelona", 753692);
+// var madridMarker = addMarker(40.416775, -3.703790, map, "Madrid", 766273);
+// var bogotaMarker = addMarker(4.710989, -74.072092, map, "Bogota", 368148);
+// //var stPetersburgMarker = addMarker(27.751828, -82.626734, map, "St Petersburg", 2123260);
+// var torontoMarker = addMarker(43.653226, -79.383184, map, "Toronto", 4118);
+// var milanMarker = addMarker(-79.383184, 9.185924, map, "Milan", 718345);
+// var singaporeMarker = addMarker(1.352083, 103.819836, map, "Singapore", 23424948);
+// //var athensMarker = addMarker(33.951935, -83.357567, map, "Athens", 946738);
 

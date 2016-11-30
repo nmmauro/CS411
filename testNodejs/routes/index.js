@@ -2,7 +2,6 @@ var express = require('express');
 var router = express.Router();
 var Twitter = require('twitter');
 var request = require("request");
-var XMLHttpRequest = require('XMLHttpRequest');
 
 var users = '[{"username":"kishan", "password":"patel"},{"username":"a", "password":"b"}]';
 var arr = JSON.parse(users);
@@ -54,44 +53,27 @@ router.post('/', function (req, res, next) {
     });
 });
 
+router.post('/woeid', function(req, res, next) {
 
+    request ({
+        url: 'http://woeid.rosselliot.co.nz/lookup/' + req.body.lookupLocation,
+        method: 'POST'},
 
-
-
-
-
-
-// var my = new XMLHttpRequest();
-// my.open('GET', 'http://woeid.rosselliot.co.nz/lookup/Boston', false);
-// console.log("suppp");
-// my.send(null);
-// if (my.status == 200) {
-//     dump(my.responseText);
-// }
-// else {
-//     console.log(my.responseText);
-// }
-
-
-
-
+        function (error, response, body) {
+        if(error) {
+            console.log(error);
+        } else {
+            var index = (response['body']).search("data-woeid") + 12;
+            var woeid = "";
+            while (response['body'][index] != '"') {
+                woeid += response['body'][index];
+                index++;
+            }
+            res.send(woeid);
+        }
+    });
+});
 
 module.exports = router;
 
 
-
-
-
-
-
-
-
-
-// twitterClient.get('statuses/user_timeline', {user_id: 'kishan8910'}, function(error, tweets, response) {
-//     console.log(tweets);
-// });
-
-// var stream = twitterClient.stream('geo/search', {track: 'boston university'});
-// stream.on('data', function(event) {
-//     console.log(event && event.text);
-// });
