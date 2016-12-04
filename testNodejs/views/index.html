@@ -24,7 +24,6 @@
     </div>
       <!--<button ng-click="trending('Boston')" class="btn btn-default">Boston</button>-->
       <!--<button ng-click="trending('Novosibirsk')" class="btn btn-default">Novosibirsk</button>-->
-    <a ng-click="createUser()" class="btn small">Register Now</a>
 
     <ul class="nav navbar-nav navbar-right">
       <div class="form-group">
@@ -32,18 +31,22 @@
       <form class="navbar-form">
           <input ng-model="username" type="text" name="user" placeholder="Username" value="username" class="username">
           <input ng-model="password" type="password" name="pass" placeholder="Password" value="password" class="password">
-          <!--<script ng-init="getUserCredentials()"></script>-->
+          <p> {{message}} </p>
+        <!--<script ng-init="getUserCredentials()"></script>-->
           <button ng-click="getUser()">Login</button>
-          <!-- ^^^ href="/login" -->
+          <button ng-click="createUser()">Register Now</button>
+
+        <!-- ^^^ href="/login" -->
       </form>
       </div>
   </ul>
   </div>
   </nav>
 <div class="trends-list">
-  <p class="whats-trending"> {{city}} </p>
-  <p> {{help}}</p>
-  <p ng-repeat="trend in trends">{{$index + 1}}. {{trend.trend}}</p>
+  <!--<p class="whats-trending"> {{city}} </p>-->
+  <div class="trend" ng-repeat="trend in trends">
+    <a target="_blank" href="https://twitter.com/search?q={{queries[$index]['query']}}" > {{$index + 1}}. {{trend.trend}}</a>
+  </div>
 </div>
 
   </div>

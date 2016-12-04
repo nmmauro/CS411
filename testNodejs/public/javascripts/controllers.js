@@ -9,7 +9,16 @@ angular.module('indexApp', []).
     $scope.help = "Click on a pin to see what's trending at that location."
 
     var lookupLocation;
+    var locations = [];
+
     var map;
+
+    var username;
+    var password;
+    var loggedIn = false;
+
+    var markers = [];
+    var woeids = [];
     //based on what you search for, this function will return its lat/long values
 
 
@@ -306,11 +315,22 @@ angular.module('indexApp', []).
                     optimized: false
                 });
                 google.maps.event.addListener(marker, 'click', function() {
-                    map.setZoom(6);
-                    map.setCenter(marker.getPosition());
                     $http.post('http://localhost:3000/', {woeid: woeid})
                         .then(function(response) {
+                            map.setZoom(6);
+                            map.setCenter(marker.getPosition());
                             var trends = response.data;
+                            var queries = [];
+                            for (var i = 0; i < trends.length; i++) {
+                                if (trends[i][0] == "#") {
+                                    var temp = trends[i].substring(1);
+                                    queries[i] = "%23" + temp;
+                                }
+                                else {
+                                    queries[i] = trends[i];
+                                }
+                            }
+                            console.log(response.data[0]);
                             var city = label;
                             console.log(trends);
                                 $scope.help = "";
@@ -327,34 +347,52 @@ angular.module('indexApp', []).
                                     {trend: trends[8]},
                                     {trend: trends[9]}
                                 ];
+                                $scope.queries = [
+                                    {query: queries[0]},
+                                    {query: queries[1]},
+                                    {query: queries[2]},
+                                    {query: queries[3]},
+                                    {query: queries[4]},
+                                    {query: queries[5]},
+                                    {query: queries[6]},
+                                    {query: queries[7]},
+                                    {query: queries[8]},
+                                    {query: queries[9]}
+                                ];
                         });
-                    console.log(marker.label);
                 });
-
+                markers.push(marker);
+                woeids.push(woeid);
                 return marker;
             }
 
             $scope.getCoordinates = function() {
-                console.log("gtting coordinates");
+                console.log("getting coordinates");
                 var latval;
                 var longval;
                 var geocoder = new google.maps.Geocoder();
-                var locationval = $scope.location_searched;
                 var woeidval;
                 lookupLocation = $scope.location_searched;
-                geocoder.geocode( { 'address': locationval}, function(results, status) {
+                geocoder.geocode( { 'address': lookupLocation}, function(results, status) {
                     if (status == google.maps.GeocoderStatus.OK)
                     {
                         //var text = $scope.location_searched;
                         latval = results[0].geometry.location.lat();
                         longval = results[0].geometry.location.lng();
-                        console.log(locationval, latval, longval);
+                        console.log(lookupLocation, latval, longval);
                         $http.post('http://localhost:3000/woeid', {lookupLocation: lookupLocation})
                             .then(function(response) {
                                 woeidval = response.data;
                                 console.log(woeidval);
-                                var marker = addMarker(latval, longval, map, locationval, woeidval);
+                                var marker = addMarker(latval, longval, map, lookupLocation, woeidval);
                                 google.maps.event.trigger(marker, 'click');
+                                if (loggedIn) {
+                                    $http.post('http://localhost:3000/addLocation', {username: username, password: password, location: lookupLocation, latitude: latval,
+                                        longitude: longval, woeid: woeidval})
+                                        .then(function(response) {
+                                            console.log(response);
+                                        });
+                                }
                             })
                     }
                 })
@@ -364,7 +402,53 @@ angular.module('indexApp', []).
 
             $scope.src = "https://maps.googleapis.com/maps/api/js?key=AIzaSyDjj7_B6dfemXryFJbD_u7kA9HfvtEUWcI"
             console.log($scope.src);
-        }
+
+            $scope.getUser = function() {
+                console.log("getUser()");
+                username = $scope.username;
+                password = $scope.password;
+
+                $http.post('http://localhost:3000/login', {username: username, password: password})
+                    .then(function(response) {
+                        if (response.data != "user does not exist") {
+                            $scope.message = "Logged in";
+                            loggedIn = true;
+                            if (response.data['latitudes'] != undefined) {
+                                for (var i = 0; i < response.data['latitudes'].length; i++) {
+                                    console.log("lattiddddee", response.data.latitudes[i]);
+                                    var marker = addMarker(response.data['latitudes'][i], response.data['longitudes'][i], map, response.data['locations'][i], response.data['woeids'][i]);
+                                }
+                                loggedIn = false;
+                            }
+                        }
+                        else {
+                            $scope.message = "Invalid credentials";
+                        }
+                    });
+
+
+            }
+
+            $scope.createUser = function() {
+                console.log("createUser()");
+                var username = $scope.username;
+                var password = $scope.password;
+
+                var users;
+
+                $http.post('http://localhost:3000/register', {username: username, password: password})
+                    .then(function(response) {
+                        if (response.data == "user exists") {
+                            $scope.message = "This user already exists";
+                        }
+                        else {
+                            $scope.message = "Success";
+                            loggedIn = true;
+                        }
+                    });
+
+            }
+        };
 
         // $scope.createUser = function() {
         //     var username = "";
@@ -377,20 +461,9 @@ angular.module('indexApp', []).
         //
         // }
 
-        $scope.getUser = function() {
-            var username = $scope.username;
 
 
-            var users;
-            var usernames;
-            var passwords;
 
-            $http.get('http://localhost:3000/')
-                .then(function(response) {
-                    users = response.users;
-                });
-            console.log(users); //does not receive users
-        }
     });
 
 

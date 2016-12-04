@@ -10,12 +10,16 @@ var mongo = require('mongodb');
 var monk = require('monk');
 var db = monk('localhost:27017/testNodejs');
 
+var app = express();
+
+app.use(function(req, res, next) {
+  req.db = db;
+  next();
+});
+
 var routes = require('./routes/index');
 var testNodejs = require('./routes/testNodejs');
-var register = require('./routes/register');
-var login = require('./routes/login');
 
-var app = express();
 
 // view engine setup
 app.engine('html', require('ejs').renderFile);
@@ -32,8 +36,6 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', routes);
 app.use('/testNodejs', testNodejs);
-app.use('/register', register);
-app.use('/login', login);
 
 // Make our db accessible to our router
 app.use(function(req,res,next){

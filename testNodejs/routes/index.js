@@ -2,10 +2,9 @@ var express = require('express');
 var router = express.Router();
 var Twitter = require('twitter');
 var request = require("request");
-
-var users = '[{"username":"kishan", "password":"patel"},{"username":"a", "password":"b"}]';
-var arr = JSON.parse(users);
-
+var passport = require('passport');
+var LocalStrategy = require('passport-local').Strategy;
+var mongodb = require('mongodb');
 var trends = [];
 
 
@@ -73,6 +72,113 @@ router.post('/woeid', function(req, res, next) {
         }
     });
 });
+
+router.post('/register', function(req, res, next) {
+    var username = req.body.username;
+    var password = req.body.password;
+
+    var MongoClient = mongodb.MongoClient;
+    var url = 'mongodb://localhost:27017/testNodejs';
+    MongoClient.connect(url, function(err, db) {
+        if (err) {
+            console.log("unable to connect to db", err);
+        }
+        else {
+            console.log("connected to db");
+            var collection = db.collection('users');
+            var newUser = {username: username, password: password};
+                collection.find({"username": username}).toArray(function(err, result) {
+                    if (result.length) {
+                        res.send("user exists");
+                        db.close();
+                    }
+                    else {
+                        collection.insert([newUser], function(err, result) {
+
+                            res.send("created user");
+                        })
+                        db.close();
+                    }
+                })
+        }
+    });
+
+
+    // var MongoClient = mongodb.MongoClient;
+    // var url = 'mongodb://localhost:27017/testNodejs';
+    // MongoClient.connect(url, function(err, db) {
+    //     var insertUser = function (db, callback) {
+    //         db.collection('users').insertOne({
+    //             "username": username,
+    //             "password": password
+    //         }, function (err, result) {
+    //             assert.equal(err, null);
+    //             console.log(result);
+    //             callback();
+    //         });
+    //     }
+    //     db.close();
+    // });
+});
+
+router.post('/login', function(req, res, next) {
+    var username = req.body.username;
+    var password = req.body.password;
+
+    var MongoClient = mongodb.MongoClient;
+    var url = 'mongodb://localhost:27017/testNodejs';
+    MongoClient.connect(url, function(err, db) {
+        if (err) {
+            console.log("unable to connect to db");
+        }
+        else {
+            console.log("connection established to db");
+        }
+        var collection = db.collection('users');
+        collection.find({"username": username}).toArray(function(err, result) {
+            if (result.length && result[0]['username'] == username && result[0]['password'] == password) {
+                console.log("yes this the right username and password");
+                res.send(result[0]);
+
+            }
+            else {
+                res.send("user does not exist");
+                console.log("invalid credentials");
+            }
+        })
+        db.close();
+    })
+});
+
+router.post('/addLocation', function(req, res, next) {
+    var username = req.body.username;
+    var password = req.body.password;
+    var location = req.body.location;
+    var woeid = req.body.woeid;
+    var latitude = req.body.latitude;
+    var longitude = req.body.longitude;
+
+    var MongoClient = mongodb.MongoClient;
+    var url = 'mongodb://localhost:27017/testNodejs';
+    MongoClient.connect(url, function (err, db) {
+        if (err) {
+            console.log("unable to connect to db");
+        }
+        else {
+            console.log("connection established to db");
+        }
+        var collection = db.collection('users');
+        collection.find({"username": username}).toArray(function (err, result) {
+            collection.update({username: username}, { $push: {locations: location}});
+            collection.update({username: username}, { $push: {woeids: woeid}});
+            collection.update({username: username}, { $push: {latitudes: latitude}});
+            collection.update({username: username}, { $push: {longitudes: longitude}});
+        })
+
+    })
+
+});
+
 
 module.exports = router;
 

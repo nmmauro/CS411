@@ -9,6 +9,13 @@ a {
   color: #00B7FF;
 }
 
+.form-group {
+  position: absolute;
+  left: 70%;
+  top: 15%;
+  bottom: 50%;
+}
+
 h3 {  
 /*padding: 50px;*/
   font: 14px "Lucida Grande"
@@ -118,4 +125,9 @@ h3 {
 .whats-trending {
   font-size: 25px;
   color: #3792bf;
+  padding-top: 20px;
+}
+
+.trend {
+  padding-bottom: 5%;
 }
