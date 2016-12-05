@@ -7,18 +7,6 @@ var LocalStrategy = require('passport-local').Strategy;
 var mongodb = require('mongodb');
 var trends = [];
 
-
-
-// POST send Google Maps API Key
-// router.post('/index', function(req, res, next) {
-//     var key = "AIzaSyCM63S2j8da77lKI4FhcD7aJIPl6lA_nb0";
-//     res.send({key: key}, {users: users});
-// })
-
-// router.get('/index', function (req, res, next) {
-//
-// });
-
 var twitterClient = new Twitter({
     consumer_key: 's0V6XvYaqFG0CbYaRNmManavg',
     consumer_secret: 'A9lDshmItkYy0MszJIxM5XuvOBQEBUTRPwEY1zjnreDMwjG12y',
@@ -102,23 +90,6 @@ router.post('/register', function(req, res, next) {
                 })
         }
     });
-
-
-    // var MongoClient = mongodb.MongoClient;
-    // var url = 'mongodb://localhost:27017/testNodejs';
-    // MongoClient.connect(url, function(err, db) {
-    //     var insertUser = function (db, callback) {
-    //         db.collection('users').insertOne({
-    //             "username": username,
-    //             "password": password
-    //         }, function (err, result) {
-    //             assert.equal(err, null);
-    //             console.log(result);
-    //             callback();
-    //         });
-    //     }
-    //     db.close();
-    // });
 });
 
 router.post('/login', function(req, res, next) {
@@ -145,7 +116,7 @@ router.post('/login', function(req, res, next) {
                 res.send("user does not exist");
                 console.log("invalid credentials");
             }
-        })
+        });
         db.close();
     })
 });
@@ -174,11 +145,8 @@ router.post('/addLocation', function(req, res, next) {
             collection.update({username: username}, { $push: {latitudes: latitude}});
             collection.update({username: username}, { $push: {longitudes: longitude}});
         })
-
     })
-
 });
-
 
 module.exports = router;
 

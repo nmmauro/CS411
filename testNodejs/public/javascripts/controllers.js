@@ -447,7 +447,6 @@ controller('indexController', function($scope, $http) {
                         loggedIn = true;
                     }
                 });
-
         }
     };
 });
