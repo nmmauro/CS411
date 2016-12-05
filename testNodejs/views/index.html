@@ -43,7 +43,7 @@
   </div>
   </nav>
 <div class="trends-list">
-  <!--<p class="whats-trending"> {{city}} </p>-->
+  <p class="whats-trending"> {{city}} </p>
   <div class="trend" ng-repeat="trend in trends">
     <a target="_blank" href="https://twitter.com/search?q={{queries[$index]['query']}}" > {{$index + 1}}. {{trend.trend}}</a>
   </div>

@@ -11,7 +11,7 @@ a {
 
 .form-group {
   position: absolute;
-  left: 70%;
+  left: 30%;
   top: 15%;
   bottom: 50%;
 }
@@ -90,7 +90,7 @@ h3 {
 .trends-list {
 
   position: absolute;
-  top:25%;
+  top:35%;
   z-index: 10;
   left: 73%;
   align: left;
@@ -125,9 +125,8 @@ h3 {
 .whats-trending {
   font-size: 25px;
   color: #3792bf;
-  padding-top: 20px;
 }
 
 .trend {
-  padding-bottom: 5%;
+  padding-bottom: 2%;
 }
