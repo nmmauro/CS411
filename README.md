@@ -1,2 +1,2 @@
 # CS411
-World News App Project
+See what's trending in different cities around the world. 
