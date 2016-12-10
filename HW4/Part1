@@ -1,0 +1,73 @@
+{
+    "$schema": "",
+
+    "title": "User",
+    "description": "A user that registered through the app",
+    "type": "object",
+    "properties": {
+
+        "username": {
+            "description": "A unique user name identifier",
+            "type": "string"
+        },
+
+        "password": {
+            "description": "Key to enter user information",
+            "type": "string"
+        },
+       
+       “loggedIn”: {
+            “description”: “Determines if the map should be populated with user information”,
+            “type”: “boolean”
+        },
+
+        "locations": {
+            "description": "Array containing previous search locations",
+            "type": "array",
+            "properties": {
+ 
+                “location”:{
+                    “description”: “Location name”;
+                    “type”: “string”
+}              
+        },
+
+       "woeids": {
+            "description": "Array containing previous search locations’ woeids",
+            "type": "array",
+            "properties": {
+ 
+                “woeid”:{
+                    “description”: “Location woeid”;
+                    “type”: “integer”
+}              
+        },
+
+
+        "latitudes": {
+            "description": "Array containing previous search locations’ latitudes",
+            "type": "array",
+            "properties": {
+ 
+                “latitude”:{
+                    “description”: “Location latitude”;
+                    “type”: “integer”
+}              
+        },
+
+        "longitudes": {
+            "description": "Array containing previous search locations’ longitudes ",
+            "type": "array",
+            "properties": {
+ 
+                “longitude”:{
+                    “description”: “Location longitude”;
+                    “type”: “integer”
+}              
+        },
+
+    },
+
+    "required": ["username", "password"]
+
+}
